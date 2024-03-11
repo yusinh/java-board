@@ -53,7 +53,16 @@ public class Main {
                     System.out.print(number + "번 게시물이 수정되었습니다.\n");
                 }
             }
-
+            else if (cmd.equals("delete")) {
+                System.out.print("삭제할 게시물 번호 : ");
+                int number = Integer.parseInt(scan.nextLine());
+                if (number > titleList.size()) {
+                    System.out.println("없는 게시물 번호입니다.");
+                }
+                else {
+                    System.out.print(number + "번 게시물이 삭제되었습니다.\n");
+                }
+            }
 
         }
 
