@@ -92,8 +92,7 @@ public class BoardApp {
                 }
                 articleList.remove(index);
                 System.out.printf("%d 게시물이 삭제되었습니다.\n", inputId);
-            }
-            else if(cmd.equals("detail")) {
+            } else if (cmd.equals("detail")) {
                 System.out.print("상세보기 할 게시물 번호를 입력해주세요 : ");
                 int inputId = Integer.parseInt(scan.nextLine());
                 int index = findIndexById(inputId);
