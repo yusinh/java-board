@@ -4,58 +4,63 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class BoardApp {
+    ArrayList<Article> articleList = new ArrayList<>(); // 인스턴스 변수
+
     public void run() {
         Scanner scan = new Scanner(System.in);
 
-        // 반복 횟수 정할 수 없음 => 무한 반복 구조
+        int latestArticleId = 1; // 시작 번호를 1로 지정
 
-        // 변수에는 하나의 값만 저장 가능하므로 여러개의 게시물을 저장하려면 ArrayList를 사용한다.
-        ArrayList<String> titleList = new ArrayList<>();
-        ArrayList<String> bodyList = new ArrayList<>();
-        ArrayList<Integer> idList = new ArrayList<>();
-        int articleId = 1; // 시작 번호를 1로 저장
-
-//        String title = ""; // 딱히 처음에 값이 필요 없음. 추후에 입력을 통해 넣을 것임.
-//        String body = "";
-
-        while(true) { // 반복 조건이 true이기 때문에 무한 반복
+        while (true) { // 반복 조건이 true이기 때문에 무한 반복
 
             System.out.print("명령어 : ");
             String cmd = scan.nextLine();
 
-            if(cmd.equals("exit") ) { // 숫자가 아닌 경우 같다라는 표현을 할 때 == 이 아닌 .equals()를 사용해야 한다.
+            if (cmd.equals("exit")) { // 숫자가 아닌 경우 같다라는 표현을 할 때 == 이 아닌 .equals()를 사용해야 한다.
                 System.out.println("프로그램을 종료합니다.");
                 break; // 반복문 탈출
 
-            } else if(cmd.equals("add")) {
-
+            } else if (cmd.equals("add")) {
 
                 System.out.print("게시물 제목을 입력해주세요 : ");
                 String title = scan.nextLine();
-                titleList.add(title); // titleList 배열에 title을 추가
 
                 System.out.print("게시물 내용을 입력해주세요 : ");
                 String body = scan.nextLine();
-                bodyList.add(body);
 
-                idList.add(articleId); // 게시물이 생성될 때마다 번호를 생성해서 저장
-                articleId++;
 
+                // 기본 생성자 이용
+//                Article article = new Article();
+//                article.setId(latestArticleId);
+//                article.setTitle(title);
+//                article.setBody(body);
+
+                // 모든 매개변수를 받는 생성자 이용
+                Article article = new Article(latestArticleId, title, body);
+
+                articleList.add(article);
                 System.out.println("게시물이 등록되었습니다.");
 
-            } else if(cmd.equals("list")) {
-                System.out.println("===================");
-                for(int i = 0; i < titleList.size(); i++) {
-                    String title = titleList.get(i);
+                latestArticleId++; // 게시물이 생성될 때마다 번호를 증가
 
-                    System.out.println("번호 : " + idList.get(i));
-                    System.out.printf("제목 : %s\n", title);
+            } else if (cmd.equals("list")) {
+                System.out.println("===================");
+                for (int i = 0; i < articleList.size(); i++) {
+                    Article article = articleList.get(i);
+
+                    System.out.println("번호 : " + article.getId());
+                    System.out.printf("제목 : %s\n", article.getTitle());
                     System.out.println("===================");
                 }
-            }
-            else if (cmd.equals("update")) {
-                System.out.print("수정할 게시물 번호 : ");
-                int id = Integer.parseInt(scan.nextLine());
+            } else if (cmd.equals("update")) {
+                System.out.print("수정할 게시물 번호를 입력해주세요 : ");
+                int inputId = Integer.parseInt(scan.nextLine());
+                int index = findIndexById(inputId);
+
+                if (index == -1) {
+                    System.out.println("없는 게시물입니다.");
+                    continue;
+                }
 
                 System.out.print("새로운 제목을 입력해주세요 : ");
                 String newTitle = scan.nextLine();
@@ -63,36 +68,51 @@ public class BoardApp {
                 System.out.print("새로운 내용을 입력해주세요 : ");
                 String newBody = scan.nextLine();
 
+                // 변하지 않는 것에서 변하는 것을 분리
+                // 변하는 것에서 변하지 않는 것을 분리
 
-                // 인덱스를 찾아서 수정
-                titleList.set(id - 1, newTitle);
-                bodyList.set(id - 1, newBody);
+                Article target = articleList.get(index);
+                target.setTitle(newTitle); // target은 참조값이므로 직접 객체를 접근하여 수정 가능
+                target.setBody(newBody);
+
+                System.out.printf("%d번 게시물이 수정되었습니다.\n", inputId);
+
+            } else if (cmd.equals("delete")) {
+                System.out.print("삭제할 게시물 번호를 입력해주세요 : ");
+                int inputId = Integer.parseInt(scan.nextLine()); // 1 -> index : 0
+                int index = findIndexById(inputId);
+                if (index == -1) {
+                    System.out.println("없는 게시물입니다.");
+                    continue;
                 }
-
-            else if(cmd.equals("delete")) {
-                System.out.print("삭제할 게시물 번호 : ");
-                int id  = Integer.parseInt(scan.nextLine());
-
-                titleList.remove(id - 1);
-                bodyList.remove(id - 1);
-                idList.remove(id - 1);
-
-                System.out.printf("%d 게시물이 삭제되었습니다.\n",id);
+                articleList.remove(index);
+                System.out.printf("%d 게시물이 삭제되었습니다.\n", inputId);
             }
             else if(cmd.equals("detail")) {
                 System.out.print("상세보기 할 게시물 번호를 입력해주세요 : ");
-                int id  = Integer.parseInt(scan.nextLine());
+                int inputId = Integer.parseInt(scan.nextLine());
+                int index = findIndexById(inputId);
+                Article target = articleList.get(index);
 
-                for(int i = 0; i < idList.size(); i++) {
-                    if (id == idList.get(i)) {
-                        System.out.println("번호 : " + idList.get(i));
-                        System.out.println("제목 : " + titleList.get(i));
-                        System.out.println("내용 : " + bodyList.get(i));
-                    }
-                }
-                System.out.println("존재하지 않는 게시물 번호입니다.");
-            }
+                System.out.println("번호 : " + inputId);
+                System.out.println("제목 : " + target.getTitle());
+                System.out.println("내용 : " + target.getBody());
             }
         }
     }
 
+    // 입력 : 찾고자 하는 게시물 번호
+    // 출력 : 게시물 번호에 해당하는 인덱스
+    public int findIndexById(int id) {
+
+        for (int i = 0; i < articleList.size(); i++) {
+            Article article = articleList.get(i);
+
+            if (article.getId() == id) {
+                return i; // 원하는 것을 찾은 즉시 종료
+            }
+        }
+
+        return -1;
+    }
+}
