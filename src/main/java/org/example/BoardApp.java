@@ -2,6 +2,8 @@ package org.example;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class BoardApp {
     ArrayList<Article> articleList = new ArrayList<>(); // 인스턴스 변수
@@ -28,6 +30,9 @@ public class BoardApp {
                 System.out.print("게시물 내용을 입력해주세요 : ");
                 String body = scan.nextLine();
 
+                LocalDateTime registrationDateTime = LocalDateTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd' 'HH:mm:ss");
+                String formattedDateTime = registrationDateTime.format(formatter);
 
                 // 기본 생성자 이용
 //                Article article = new Article();
@@ -36,7 +41,7 @@ public class BoardApp {
 //                article.setBody(body);
 
                 // 모든 매개변수를 받는 생성자 이용
-                Article article = new Article(latestArticleId, title, body);
+                Article article = new Article(latestArticleId, title, body, formattedDateTime);
 
                 articleList.add(article);
                 System.out.println("게시물이 등록되었습니다.");
@@ -92,11 +97,15 @@ public class BoardApp {
                 System.out.print("상세보기 할 게시물 번호를 입력해주세요 : ");
                 int inputId = Integer.parseInt(scan.nextLine());
                 int index = findIndexById(inputId);
+                if (index == -1) {
+                    System.out.println("없는 게시물입니다.");
+                    continue;
+                }
                 Article target = articleList.get(index);
-
                 System.out.println("번호 : " + inputId);
                 System.out.println("제목 : " + target.getTitle());
                 System.out.println("내용 : " + target.getBody());
+                System.out.println("등록날짜 : " + target.getDateTime());
             }
         }
     }
