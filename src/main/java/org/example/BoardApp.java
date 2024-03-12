@@ -50,9 +50,6 @@ public class BoardApp {
 
                     System.out.println("번호 : " + idList.get(i));
                     System.out.printf("제목 : %s\n", title);
-
-//                    String body = bodyList.get(i);
-//                    System.out.printf("내용 : %s\n", body);
                     System.out.println("===================");
                 }
             }
@@ -80,10 +77,20 @@ public class BoardApp {
                 bodyList.remove(id - 1);
                 idList.remove(id - 1);
 
-
                 System.out.printf("%d 게시물이 삭제되었습니다.\n",id);
+            }
+            else if(cmd.equals("detail")) {
+                System.out.print("상세보기 할 게시물 번호를 입력해주세요 : ");
+                int id  = Integer.parseInt(scan.nextLine());
 
-
+                for(int i = 0; i < idList.size(); i++) {
+                    if (id == idList.get(i)) {
+                        System.out.println("번호 : " + idList.get(i));
+                        System.out.println("제목 : " + titleList.get(i));
+                        System.out.println("내용 : " + bodyList.get(i));
+                    }
+                }
+                System.out.println("존재하지 않는 게시물 번호입니다.");
             }
             }
         }
