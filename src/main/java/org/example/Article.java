@@ -5,16 +5,24 @@ import java.time.LocalDateTime;
 public class Article {
     private int id; // 번호
     private String title; // 제목
-
     private String body; // 내용
+    private String regDate; // 등록날짜
+    private int hit; // 조회수
 
-    private String formattedDateTime;
-
-    public Article(int id, String title, String body, String formattedDateTime) {
+    public Article(int id, String title, String body, String regDate, int hit) {
         this.id = id;
         this.title = title;
         this.body = body;
-        this.formattedDateTime = formattedDateTime;
+        this.regDate = regDate;
+        this.hit = hit;
+    }
+
+    public String getRegDate() {
+        return regDate;
+    }
+
+    public void setRegDate(String regDate) {
+        this.regDate = regDate;
     }
 
     public int getId() {
@@ -41,11 +49,15 @@ public class Article {
         this.body = body;
     }
 
-    public String getDateTime() {
-        return formattedDateTime;
+    public void increaseHit() {
+        this.hit++;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.formattedDateTime = formattedDateTime;
+    public int getHit() {
+        return hit;
+    }
+
+    public void setHit(int hit) {
+        this.hit = hit;
     }
 }
