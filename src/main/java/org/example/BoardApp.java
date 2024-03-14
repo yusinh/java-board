@@ -86,8 +86,8 @@ public class BoardApp {
         System.out.print("수정할 게시물 번호를 입력해주세요 : ");
         int inputId = Integer.parseInt(scan.nextLine());
 
-        int index = findIndexById(inputId);
-        if (index == -1) {
+        Article article = findArticleById(inputId);
+        if (article == null) {
             System.out.println("없는 게시물입니다.");
             return;
         }
@@ -101,9 +101,8 @@ public class BoardApp {
         // 변하지 않는 것에서 변하는 것을 분리
         // 변하는 것에서 변하지 않는 것을 분리
 
-        Article target = articleList.get(index);
-        target.setTitle(newTitle); // target은 참조값이므로 직접 객체를 접근하여 수정 가능
-        target.setBody(newBody);
+        article.setTitle(newTitle); // target은 참조값이므로 직접 객체를 접근하여 수정 가능
+        article.setBody(newBody);
 
         System.out.printf("%d번 게시물이 수정되었습니다.\n", inputId);
     }
@@ -111,28 +110,26 @@ public class BoardApp {
         System.out.print("삭제할 게시물 번호를 입력해주세요 : ");
         int inputId = Integer.parseInt(scan.nextLine());
 
-        int index = findIndexById(inputId);
+        Article article = findArticleById(inputId);
 
-        if (index == -1) {
+        if (article == null) {
             System.out.println("없는 게시물입니다.");
             return;
         }
 
-        articleList.remove(index);
+        articleList.remove(article);
         System.out.printf("%d 게시물이 삭제되었습니다.\n", inputId);
     }
     private void detail() {
         System.out.print("상세보기 할 게시물 번호를 입력해주세요 : ");
         int inputId = Integer.parseInt(scan.nextLine());
 
-        int index = findIndexById(inputId);
+        Article article = findArticleById(inputId);
 
-        if (index == -1) {
+        if (article == null) {
             System.out.println("없는 게시물입니다.");
             return;
         }
-
-        Article article = articleList.get(index);
 
         article.increaseHit();
 
@@ -160,17 +157,17 @@ public class BoardApp {
 
     // 입력 : 찾고자 하는 게시물 번호
     // 출력 : 게시물 번호에 해당하는 인덱스
-    public int findIndexById(int id) {
+    public Article findArticleById(int id) {
 
         for (int i = 0; i < articleList.size(); i++) {
             Article article = articleList.get(i);
 
             if (article.getId() == id) {
-                return i; // 원하는 것은 찾은 즉시 종료.
+                return article;
             }
         }
 
-        return -1;
+        return null;
     }
 
     public String getCurrentDateTime() {
