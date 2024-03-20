@@ -1,4 +1,4 @@
-package org.example.base;
+package org.example;
 
 import org.example.base.BoardApp;
 
