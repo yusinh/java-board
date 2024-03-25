@@ -63,10 +63,8 @@ public class ArticleRepository {
         articleList.add(article);
         latestArticleId++;
         return article;
-
     }
     public ArticleRepository() {
         makeTestData();
     }
-
 }
