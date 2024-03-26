@@ -1,10 +1,14 @@
-package org.example.domain;
+package org.example.domain.article.view;
+
+import org.example.domain.article.model.Article;
 
 import java.util.ArrayList;
 
 public class ArticleView {
 
     public void printArticleList(ArrayList<Article> targetList) {
+
+        System.out.println("===================");
         for (int i = 0; i < targetList.size(); i++) {
 
             Article article = targetList.get(i);
@@ -15,7 +19,6 @@ public class ArticleView {
         }
     }
     public void printArticleDetail(Article article) {
-        // alt + ctrl + L : 코드 정리. 자주 사용할 것
         System.out.println("===================");
         System.out.println("번호 : " + article.getId());
         System.out.println("제목 : " + article.getTitle());

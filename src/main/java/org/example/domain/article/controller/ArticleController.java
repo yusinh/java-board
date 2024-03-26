@@ -1,25 +1,58 @@
-package org.example.domain;
+package org.example.domain.article.controller;
 
 import org.example.base.CommonUtil;
+import org.example.domain.article.model.Article;
+import org.example.domain.article.model.ArticleRepository;
+import org.example.domain.article.view.ArticleView;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class ArticleController {
+// Model - Controller - View
+public class ArticleController { // Model + Controller
+
     CommonUtil commonUtil = new CommonUtil();
     ArticleView articleView = new ArticleView();
     ArticleRepository articleRepository = new ArticleRepository();
+
     Scanner scan = commonUtil.getScanner();
     int WRONG_VALUE = -1;
 
 
+    public void search() {
+        // 검색어를 입력
+        System.out.println("검색 키워드를 입력해주세요 :");
+        String keyword = scan.nextLine();
+        ArrayList<Article> searchedList = articleRepository.findArticleByKeyword(keyword);
 
+        articleView.printArticleList(searchedList);
+    }
 
+    public void detail() {
+        System.out.print("상세보기 할 게시물 번호를 입력해주세요 : ");
+
+        int inputId = getParamAsInt(scan.nextLine(), WRONG_VALUE);
+        if(inputId == WRONG_VALUE) {
+            return;
+        }
+
+        Article article = articleRepository.findArticleById(inputId);
+
+        if (article == null) {
+            System.out.println("없는 게시물입니다.");
+            return;
+        }
+
+        article.increaseHit();
+        articleView.printArticleDetail(article);
+
+    }
     public void delete() {
 
         System.out.print("삭제할 게시물 번호를 입력해주세요 : ");
+
         int inputId = getParamAsInt(scan.nextLine(), WRONG_VALUE);
-        if (inputId == WRONG_VALUE) {
+        if(inputId == WRONG_VALUE) {
             return;
         }
 
@@ -34,32 +67,16 @@ public class ArticleController {
         System.out.printf("%d 게시물이 삭제되었습니다.\n", inputId);
     }
 
-    public void detail() {
-        System.out.print("상세보기 할 게시물 번호를 입력해주세요 : ");
-        int inputId = getParamAsInt(scan.nextLine(), WRONG_VALUE);
-        if (inputId == WRONG_VALUE) {
-            return;
-        }
-
-        Article article = articleRepository.findArticleById(inputId);
-
-        if (article == null) {
-            System.out.println("없는 게시물입니다.");
-            return;
-        }
-
-        article.increaseHit();
-        articleView.printArticleDetail(article);
-    }
-
     public void update() {
         System.out.print("수정할 게시물 번호를 입력해주세요 : ");
-        int inputId = getParamAsInt(scan.nextLine(),WRONG_VALUE);
+
+        int inputId = getParamAsInt(scan.nextLine(), WRONG_VALUE);
         if(inputId == WRONG_VALUE) {
             return;
         }
 
         Article article = articleRepository.findArticleById(inputId);
+
         if (article == null) {
             System.out.println("없는 게시물입니다.");
             return;
@@ -76,12 +93,12 @@ public class ArticleController {
     }
 
     public void list() {
-        System.out.println("===================");
-        ArrayList<Article> articleList = articleRepository.findALL();
-        articleView.printArticleList(articleList);
+        ArrayList<Article> articleList = articleRepository.findAll();
+        articleView.printArticleList(articleList); // 전체 출력 -> 전체 저장소 넘기기
     }
 
     public void add() {
+
         System.out.print("게시물 제목을 입력해주세요 : ");
         String title = scan.nextLine();
 
@@ -91,21 +108,7 @@ public class ArticleController {
         articleRepository.saveArticle(title, body);
         System.out.println("게시물이 등록되었습니다.");
 
-
     }
-
-    public void search() {
-        System.out.print("검색 키워드를 입력해주세요 : ");
-        String keyword = scan.nextLine();
-        ArrayList<Article> searchedList = articleRepository.findArticleBykeyword(keyword);
-
-        articleView.printArticleList(searchedList);
-        if (searchedList.isEmpty()) {
-            System.out.println("검색 결과가 없습니다.");
-        }
-    }
-
-
 
     private int getParamAsInt(String param, int defaultValue) {
         try {
@@ -114,6 +117,5 @@ public class ArticleController {
             System.out.println("숫자를 입력해주세요.");
             return defaultValue;
         }
-
     }
 }

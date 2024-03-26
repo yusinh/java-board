@@ -1,19 +1,37 @@
-package org.example.domain;
+package org.example.domain.article.model;
 
 import java.time.LocalDateTime;
 
 public class Article {
     private int id; // 번호
     private String title; // 제목
+
     private String body; // 내용
-    private String regDate; // 등록날짜
+
     private int hit; // 조회수
 
-    public Article(int id, String title, String body, String regDate, int hit) {
+    private String regDate; // 등록날짜
+
+    public Article() {
+    }
+
+    public Article(int id, String title, String body, int hit, String regDate) {
         this.id = id;
         this.title = title;
         this.body = body;
+        this.hit = hit;
         this.regDate = regDate;
+    }
+
+    public void increaseHit() {
+        this.hit++;
+    }
+
+    public int getHit() {
+        return hit;
+    }
+
+    public void setHit(int hit) {
         this.hit = hit;
     }
 
@@ -47,17 +65,5 @@ public class Article {
 
     public void setBody(String body) {
         this.body = body;
-    }
-
-    public void increaseHit() {
-        this.hit++;
-    }
-
-    public int getHit() {
-        return hit;
-    }
-
-    public void setHit(int hit) {
-        this.hit = hit;
     }
 }
