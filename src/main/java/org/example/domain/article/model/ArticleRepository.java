@@ -4,7 +4,7 @@ import org.example.base.CommonUtil;
 
 import java.util.ArrayList;
 
-public class ArticleRepository {
+public class ArticleRepository extends Repository {
     ArrayList<Article> articleList = new ArrayList<>();
     CommonUtil commonUtil = new CommonUtil();
     int latestArticleId = 4;
@@ -60,6 +60,8 @@ public class ArticleRepository {
     public ArrayList<Article> findAll() {
         return articleList;
     }
+
+    // 게시물 저장
 
     public Article saveArticle(String title, String body) {
 
