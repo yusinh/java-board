@@ -2,7 +2,7 @@ package org.example.test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.base.CommonUtil;
-import org.example.domain.article.model.Article;
+import org.example.domain.model.Article;
 
 import java.io.File;
 import java.io.FileNotFoundException;

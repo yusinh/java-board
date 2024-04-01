@@ -1,6 +1,6 @@
 package org.example.base;
 
-import org.example.domain.article.controller.ArticleController;
+import org.example.domain.controller.ArticleController;
 import java.util.Scanner;
 
 public class BoardApp {

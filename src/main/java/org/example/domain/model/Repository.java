@@ -1,4 +1,4 @@
-package org.example.domain.article.model;
+package org.example.domain.model;
 
 import java.util.ArrayList;
 

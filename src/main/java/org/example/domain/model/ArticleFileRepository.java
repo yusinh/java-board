@@ -1,4 +1,4 @@
-package org.example.domain.article.model;
+package org.example.domain.model;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -7,7 +7,6 @@ import org.example.base.CommonUtil;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ArticleFileRepository implements Repository {
     private int latestId = 1;

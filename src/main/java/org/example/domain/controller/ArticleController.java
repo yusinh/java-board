@@ -1,10 +1,10 @@
-package org.example.domain.article.controller;
+package org.example.domain.controller;
 
 import org.example.base.CommonUtil;
-import org.example.domain.article.model.Article;
-import org.example.domain.article.model.ArticleMySQLRepository;
-import org.example.domain.article.model.Repository;
-import org.example.domain.article.view.ArticleView;
+import org.example.domain.model.Article;
+import org.example.domain.model.ArticleMySQLRepository;
+import org.example.domain.model.Repository;
+import org.example.domain.view.ArticleView;
 
 import java.util.ArrayList;
 import java.util.Scanner;
